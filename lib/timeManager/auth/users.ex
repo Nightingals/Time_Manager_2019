@@ -3,8 +3,8 @@ defmodule TimeManager.Auth.Users do
   import Ecto.Changeset
 
   schema "users" do
-    field :email, :string
-    field :username, :string
+    field :email, :string, null:false
+    field :username, :string, null:false
 
     timestamps()
   end
@@ -14,5 +14,7 @@ defmodule TimeManager.Auth.Users do
     users
     |> cast(attrs, [:username, :email])
     |> validate_required([:username, :email])
+    |> validate_format(:email,~r/@/)
+    |> unique_constraint(:email)
   end
 end
